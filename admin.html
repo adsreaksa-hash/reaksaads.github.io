@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login - Invitation</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Moul&display=swap" rel="stylesheet">
+
+  <style>
+    *{ box-sizing:border-box; }
+    body{
+  background: radial-gradient(circle at 20% 10%, rgba(24,119,242,.18), transparent 40%),
+              radial-gradient(circle at 80% 0%, rgba(13,91,215,.15), transparent 45%),
+              linear-gradient(180deg, #f4f8ff, #ffffff);
+
+      margin:0;
+      font-family:"Kantumruy Pro", sans-serif;
+      background:#f5f5f7;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .card{
+      width:100%;
+      max-width:420px;
+      background:#fff;
+      border-radius:18px;
+      padding:26px 22px;
+      box-shadow:0 12px 40px rgba(0,0,0,0.12);
+      border:1px solid rgba(0,0,0,0.06);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      margin-bottom:14px;
+      user-select:none;
+    }
+    .logo{
+      width:34px;height:34px;border-radius:10px;
+      background: linear-gradient(135deg, #1877F2, #0d5bd7);
+      position:relative;
+    }
+    .logo:after{
+      content:"";
+      position:absolute; inset:8px;
+      background:#fff; border-radius:50%;
+      opacity:.85;
+    }
+    .brand h1{
+      font-size:22px;
+      margin:0;
+      font-weight:900;
+      color:#1877F2;
+      letter-spacing:.2px;
+      text-transform:lowercase;
+    }
+
+    .title{
+      text-align:center;
+      margin-top:6px;
+      margin-bottom:6px;
+      font-size:18px;
+      font-weight:900;
+      color:#111;
+    }
+    .subtitle{
+      text-align:center;
+      margin:0 0 18px;
+      font-size:13px;
+      color:#666;
+      line-height:1.5;
+    }
+    .field{ margin-bottom:14px; }
+    .label{
+      font-size:13px;
+      font-weight:800;
+      color:#222;
+      margin-bottom:7px;
+      display:block;
+    }
+    .input{
+      width:100%;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.14);
+      outline:none;
+      font-size:14px;
+      background:#fafafa;
+      transition:.2s;
+    }
+    .input:focus{
+      background:#fff;
+      border-color: rgba(255,45,85,0.55);
+      box-shadow:0 0 0 4px rgba(255,45,85,0.10);
+    }
+
+    .pass-wrap{ position:relative; }
+    .toggle{
+      position:absolute;
+      right:12px;
+      top:50%;
+      transform:translateY(-50%);
+      border:none;
+      background:transparent;
+      font-size:14px;
+      cursor:pointer;
+      opacity:.70;
+    }
+    .toggle:hover{ opacity:1; }
+
+    .row{
+      display:flex;
+      justify-content:flex-end;
+      align-items:center;
+      margin-top:-4px;
+      margin-bottom:10px;
+      font-size:12px;
+      color:#666;
+    }
+    .row a{
+      color:#111;
+      text-decoration:none;
+      font-weight:800;
+    }
+
+    .btn{
+      width:100%;
+      padding:12px 14px;
+      border:none;
+      border-radius:999px;
+      background: linear-gradient(135deg, #1877F2, #0d5bd7);
+      color:#fff;
+      font-weight:900;
+      font-size:14px;
+      cursor:pointer;
+      transition:.2s;
+    }
+    .btn:hover{ transform: translateY(-1px); }
+
+    .error{
+      display:none;
+      margin-top:10px;
+      background:rgba(255,45,85,0.10);
+      border:1px solid rgba(255,45,85,0.18);
+      color:#a1122a;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:800;
+      text-align:center;
+    }
+
+    /* ADMIN PANEL */
+    .hide{ display:none; }
+    .admin-title{
+      text-align:center;
+      font-weight:900;
+      color:#111;
+      font-size:18px;
+      margin:0 0 6px;
+    }
+    .admin-sub{
+      text-align:center;
+      color:#666;
+      font-size:13px;
+      margin:0 0 16px;
+      line-height:1.55;
+    }
+    .pill{
+      background:rgba(255,45,85,0.08);
+      border:1px solid rgba(255,45,85,0.14);
+      color:#a1122a;
+      font-weight:900;
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:13px;
+      margin-bottom:12px;
+      text-align:center;
+    }
+    .preview{
+      margin-top:14px;
+      font-size:13px;
+      color:#333;
+      line-height:1.6;
+      padding:12px 12px;
+      border-radius:14px;
+      background:#fafafa;
+      border:1px solid rgba(0,0,0,0.08);
+    }
+    .preview b{ color:#111; }
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      margin-top:12px;
+      flex-wrap:wrap;
+    }
+    .btn-small{
+      flex:1;
+      min-width:150px;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(0,0,0,0.12);
+      background:#111;
+      color:#fff;
+      font-weight:900;
+      cursor:pointer;
+    }
+    .btn-outline{
+      flex:1;
+      min-width:150px;
+      padding:12px 14px;
+      border-radius:999px;
+      border:1px solid rgba(255,45,85,0.35);
+      background:#fff;
+      color:#1877F2;
+      font-weight:900;
+      cursor:pointer;
+    }
+
+    .toast{
+      display:none;
+      margin-top:12px;
+      background:rgba(0,200,90,0.10);
+      border:1px solid rgba(0,200,90,0.18);
+      color:#0a7a3d;
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      font-weight:900;
+      text-align:center;
+    }
+    .version{
+      text-align:center;
+      font-size:12px;
+      margin-top:16px;
+      color:#777;
+    }
+  
+/* ✅ Modern UI Enhancements */
+.btn-primary{
+  transition: transform .15s ease, box-shadow .2s ease, filter .2s ease;
+}
+.btn-primary:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 16px 35px rgba(24,119,242,0.28);
+  filter: brightness(1.02);
+}
+.btn-primary:active{
+  transform: translateY(0px) scale(0.99);
+  box-shadow: 0 10px 22px rgba(24,119,242,0.22);
+}
+
+.row-between{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin: 6px 0 14px;
+}
+.remember{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#4b5563;
+  user-select:none;
+}
+.remember input{
+  width:16px;
+  height:16px;
+  accent-color:#1877F2;
+}
+.forgot{
+  font-size:14px;
+  color:#1877F2;
+  text-decoration:none;
+  font-weight:600;
+}
+.forgot:hover{
+  text-decoration:underline;
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+}
+.card-title .badge{
+  width:34px;
+  height:34px;
+  border-radius:12px;
+  background: rgba(24,119,242,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow: 0 10px 25px rgba(24,119,242,0.16);
+}
+.card-title .badge img{
+  width:26px;
+  height:26px;
+  border-radius:10px;
+  object-fit:cover;
+}
+
+
+/* ✅ Password Toggle Icon (Modern) */
+.pass-wrap{ position:relative; }
+.toggle-pass{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform: translateY(-50%);
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  border:1px solid rgba(24,119,242,.18);
+  background: rgba(24,119,242,.08);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition: all .15s ease;
+}
+.toggle-pass:hover{
+  background: rgba(24,119,242,.14);
+  border-color: rgba(24,119,242,.28);
+  transform: translateY(-50%) scale(1.03);
+}
+.toggle-pass svg{ width:18px; height:18px; fill:#1877F2; opacity:.9; }
+
+
+/* ✅ Loading Spinner */
+.btn-primary.loading{
+  pointer-events:none;
+  opacity:.85;
+}
+.btn-primary .spinner{
+  width:18px; height:18px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.45);
+  border-top-color:#fff;
+  display:none;
+  animation: spin .8s linear infinite;
+}
+.btn-primary.loading .spinner{ display:inline-block; }
+.btn-primary.loading .btn-text{ opacity:.95; }
+@keyframes spin{ to{ transform: rotate(360deg);} }
+
+
+/* ✅ Error Shake Animation */
+@keyframes shakeX{
+  0%,100%{ transform: translateX(0); }
+  20%{ transform: translateX(-6px); }
+  40%{ transform: translateX(6px); }
+  60%{ transform: translateX(-4px); }
+  80%{ transform: translateX(4px); }
+}
+.shake{ animation: shakeX .35s ease; }
+
+/* ✅ Toast */
+.toast{
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 360px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.92);
+  border: 1px solid rgba(24,119,242,.18);
+  box-shadow: 0 18px 40px rgba(0,0,0,.12);
+  backdrop-filter: blur(10px);
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  transform: translateY(-10px);
+  opacity:0;
+  pointer-events:none;
+  transition: all .25s ease;
+}
+.toast.show{
+  opacity:1;
+  transform: translateY(0);
+}
+.toast .ticon{
+  width:34px;
+  height:34px;
+  border-radius: 12px;
+  background: rgba(24,119,242,.12);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.toast .ticon svg{ width:18px; height:18px; fill:#1877F2; }
+.toast .ttext{ flex:1; }
+.toast .ttitle{ font-weight:800; margin:0; font-size:14px; }
+.toast .tdesc{ margin:2px 0 0; font-size:13px; color:#475569; }
+.toast .tclose{
+  width:30px;height:30px;border-radius:12px;
+  background: transparent; border:0; cursor:pointer;
+  opacity:.65;
+}
+.toast .tclose:hover{ opacity:1; }
+
+/* ✅ Dark Mode */
+:root{
+  --bg1: radial-gradient(circle at 20% 10%, rgba(24,119,242,.18), transparent 40%),
+         radial-gradient(circle at 80% 0%, rgba(13,91,215,.15), transparent 45%),
+         linear-gradient(180deg, #f4f8ff, #ffffff);
+  --card: rgba(255,255,255,.92);
+  --text: #0f172a;
+  --muted:#64748b;
+  --border: rgba(15,23,42,.12);
+}
+body{ color: var(--text); }
+.card{ background: var(--card); }
+small, .subtitle{ color: var(--muted); }
+body.dark{
+  --bg1: radial-gradient(circle at 20% 10%, rgba(24,119,242,.22), transparent 45%),
+         radial-gradient(circle at 80% 0%, rgba(13,91,215,.18), transparent 55%),
+         linear-gradient(180deg, #0b1220, #0b1220);
+  --card: rgba(15,23,42,.74);
+  --text: #e5e7eb;
+  --muted:#a3b3c7;
+  --border: rgba(226,232,240,.12);
+}
+body{ background: var(--bg1); }
+body.dark input{ background: rgba(255,255,255,.06); color: #e5e7eb; border-color: var(--border); }
+body.dark .toast{ background: rgba(15,23,42,.86); border-color: rgba(226,232,240,.12); }
+body.dark .toast .tdesc{ color:#a3b3c7; }
+
+/* ✅ Dark mode switch */
+.theme-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  margin-top: 10px;
+}
+.switch{
+  position:relative;
+  width:54px; height:30px;
+  background: rgba(24,119,242,.18);
+  border: 1px solid rgba(24,119,242,.25);
+  border-radius: 999px;
+  cursor:pointer;
+  transition: all .2s ease;
+}
+.switch::after{
+  content:"";
+  position:absolute;
+  top:3px; left:3px;
+  width:24px; height:24px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 10px 22px rgba(0,0,0,.15);
+  transition: all .2s ease;
+}
+body.dark .switch{
+  background: rgba(255,255,255,.10);
+  border-color: rgba(226,232,240,.18);
+}
+body.dark .switch::after{ left:27px; background: #e5e7eb; }
+.switch-label{
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 700;
+  margin-right: 10px;
+}
+
+</style>
+</head>
+
+<body>
+
+  <!-- ✅ LOGIN -->
+  <div class="card" id="loginCard">
+    <div class="brand">
+      <div class="logo"></div>
+      <h1>Reaksa Ads</h1>
+    </div>
+    <div class="title">Login Account</div>
+    <div class="subtitle">Login to generate guest invitation links.</div>
+
+    <div class="field">
+      <label class="label">Phone / Email</label>
+      <input id="phone" class="input" type="text" placeholder="adsreaksa@gmail.com" />
+    </div>
+
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="pass-wrap">
+        <input id="password" class="input" type="password" placeholder="Enter password" />
+        <div class="toggle-pass" id="togglePassBtn" title="Show/Hide">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5c5.5 0 9.7 4.2 10.9 6-1.2 1.8-5.4 6-10.9 6S2.3 12.8 1.1 11C2.3 9.2 6.5 5 12 5zm0 2C7.9 7 4.5 10 3.3 11 4.5 12 7.9 15 12 15s7.5-3 8.7-4C19.5 10 16.1 7 12 7zm0 2.5A2.5 2.5 0 1 1 12 14a2.5 2.5 0 0 1 0-5z"/></svg>
+        </div>
+        
+        <button class="toggle" id="togglePass" type="button">👁️</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <a href="#" onclick="alert('សូមទំនាក់ទំនង Admin ដើម្បី Reset ពាក្យសម្ងាត់។'); return false;">Forgot your password?</a>
+    </div>
+
+    <button class="btn" id="loginBtn"><span class="spinner"></span><span class="btn-text">Login</span></button>
+    <div class="error" id="loginError">❌ Phone/Email ឬ Password មិនត្រឹមត្រូវ</div>
+    <div class="version">Version 1.0.0 - production</div>
+  </div>
+
+  <!-- ✅ ADMIN PANEL -->
+  <div class="card hide" id="adminCard">
+    <div class="admin-title">🛡️ Admin Panel</div>
+    <div class="admin-sub">វាយឈ្មោះភ្ញៀវ → Copy Link → ផ្ញើទៅភ្ញៀវ ✅</div>
+
+    <div class="pill" id="loggedAs">Logged in ✅</div>
+
+    <div class="field">
+      <label class="label">ឈ្មោះភ្ញៀវ</label>
+      <input id="guestInput" class="input" type="text" placeholder="ឧ. លោក សុខ រតនៈវិសាល" />
+    </div>
+
+    <div class="field">
+      <label class="label">Mode (ជ្រើសរបៀបបន្ទាប់ពេលចុច Copy Link)</label>
+      <select id="modeSelect" class="input" style="appearance:auto; padding-right:14px;">
+        <option value="toast" selected>✅ Toast only (ស្អាត)</option>
+        <option value="open">🌐 Auto Open only (បើក Link)</option>
+        <option value="alert">🔔 Alert Popup only (បង្ហាញ Link)</option>
+      </select>
+    </div>
+
+    <div class="preview" id="previewBox">📌 Preview: <b>សូមគោរពអញ្ជើញ ........</b></div>
+
+    <div class="btn-row">
+      <button class="btn-small" id="copyBtn">🔗 Copy Link</button>
+      <button class="btn-outline" id="resetBtn">♻️ Reset</button>
+    </div>
+
+    <div class="toast" id="toastMsg">✅ Copy Link រួចរាល់!</div>
+
+    <div class="btn-row" style="margin-top:14px;">
+      <button class="btn-outline" id="logoutBtn">🚪 Logout</button>
+    </div>
+
+    <div class="version">Admin Version 1.0.0</div>
+  </div>
+
+  <script>
+const ADMIN_USER = "adsreaksa@gmail.com";
+const ADMIN_PASS = "adsreaksa050796";
+
+    /* ✅ LOGIN SETTINGS */
+    const ADMIN_PHONE = "adsreaksa@gmail.com";
+    const ADMIN_PASSWORD = "reaksa12345";
+
+    const loginCard = document.getElementById("loginCard");
+    const adminCard = document.getElementById("adminCard");
+    const phoneEl = document.getElementById("phone");
+    const passEl = document.getElementById("password");
+    const loginBtn = document.getElementById("loginBtn");
+    
+
+    // ✅ LOGIN (Hard Fix)
+    const ADMIN_USER = "adsreaksa@gmail.com";
+    const ADMIN_PASS = "adsreaksa050796";
+
+    function normalizeEmail(v){
+      return (v || "").toString().trim().toLowerCase();
+    }
+    function normalizePass(v){
+      return (v || "").toString().trim();
+    }
+
+    loginBtn.addEventListener("click", ()=>{
+      loginBtn.classList.add("loading");
+      const userVal = normalizeEmail(document.getElementById("user").value);
+      const passVal = normalizePass(document.getElementById("password").value);
+
+      const okUser = userVal === ADMIN_USER.toLowerCase();
+      const okPass = passVal === ADMIN_PASS;
+
+      if(okUser && okPass){
+        localStorage.setItem("admin_logged","yes");
+        localStorage.setItem("admin_user", ADMIN_USER);
+        if(typeof showToast === "function"){
+          showToast("success","Login Success","Welcome to Admin Panel.");
+        }
+        setTimeout(()=>{
+          loginBtn.classList.remove("loading");
+          gotoAdmin();
+        }, 650);
+      } else {
+        loginBtn.classList.remove("loading");
+        errorBox.style.display = "block";
+        errorBox.classList.remove("shake"); void errorBox.offsetWidth; errorBox.classList.add("shake");
+        if(typeof showToast === "function"){
+          showToast("error","Login Failed","Phone/Email or Password is incorrect.");
+        }
+      }
+    });
+
+const loginError = document.getElementById("loginError");
+    const togglePass = document.getElementById("togglePass");
+
+    const guestInput = document.getElementById("guestInput");
+    const modeSelect = document.getElementById("modeSelect");
+    const previewBox = document.getElementById("previewBox");
+    const copyBtn = document.getElementById("copyBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const toastMsg = document.getElementById("toastMsg");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const loggedAs = document.getElementById("loggedAs");
+
+    function showToast(msg="✅ Copy Link រួចរាល់!"){
+      toastMsg.textContent = msg;
+      toastMsg.style.display = "block";
+      setTimeout(()=> toastMsg.style.display = "none", 2200);
+    }
+
+    function makeGuestLink(name){
+      // ✅ Use RELATIVE link so it works on GitHub Pages (user site + project site) and any hosting
+      const base = "index.html?guest=";
+      return base + encodeURIComponent(name.trim());
+    }
+
+    function updatePreview(){
+      const name = guestInput.value.trim();
+      previewBox.innerHTML = "📌 Preview: <b>សូមគោរពអញ្ជើញ " + (name || "........") + "</b>";
+    }
+
+    function gotoAdmin(){
+      loginCard.classList.add("hide");
+      adminCard.classList.remove("hide");
+      const savedPhone = localStorage.getItem("admin_phone") || "Admin";
+      loggedAs.textContent = "Logged in ✅ (" + savedPhone + ")";
+    }
+
+    function gotoLogin(){
+      adminCard.classList.add("hide");
+      loginCard.classList.remove("hide");
+    }
+
+    // ✅ Auto login
+    if(localStorage.getItem("admin_logged") === "yes" && localStorage.getItem("remember_me") !== "no"){
+      showToast("success","Login Success","Welcome to Admin Panel.");
+        setTimeout(()=>{ loginBtn.classList.remove("loading"); gotoAdmin(); }, 650);
+    }
+
+    
+    
+    // ✅ Show/Hide Password
+    const toggleBtn = document.getElementById("togglePassBtn");
+    const passInput = document.getElementById("password");
+    if(toggleBtn && passInput){
+      toggleBtn.addEventListener("click", ()=>{
+        const isPass = passInput.type === "password";
+        passInput.type = isPass ? "text" : "password";
+        toggleBtn.style.filter = isPass ? "brightness(1.05)" : "none";
+      });
+    }
+
+    
+    // ✅ Toast helper
+    const toastEl = document.getElementById("toast");
+    const toastTitle = document.getElementById("toastTitle");
+    const toastDesc = document.getElementById("toastDesc");
+    const toastIcon = document.getElementById("toastIcon");
+    const toastClose = document.getElementById("toastClose");
+    function showToast(type, title, desc){
+      if(!toastEl) return;
+      toastTitle.textContent = title || "";
+      toastDesc.textContent = desc || "";
+      toastIcon.innerHTML = type==="success"
+        ? '<svg viewBox="0 0 24 24"><path d="M9 16.2 4.8 12l1.4-1.4L9 13.4l8.8-8.8L19.2 6 9 16.2z"/></svg>'
+        : '<svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 14h-2v-2h2zm0-4h-2V6h2z"/></svg>';
+      toastEl.classList.add("show");
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 2200);
+    }
+    if(toastClose){ toastClose.addEventListener("click", ()=>toastEl.classList.remove("show")); }
+
+    // ✅ Dark mode persistence
+    const themeSwitch = document.getElementById("themeSwitch");
+    const savedTheme = localStorage.getItem("theme_mode");
+    if(savedTheme === "dark"){ document.body.classList.add("dark"); }
+    if(themeSwitch){
+      themeSwitch.addEventListener("click", ()=>{
+        document.body.classList.toggle("dark");
+        localStorage.setItem("theme_mode", document.body.classList.contains("dark") ? "dark" : "light");
+      });
+    }
+
+    // ✅ Remember Me
+    const rememberMe = document.getElementById("rememberMe");
+    const savedRemember = localStorage.getItem("remember_me");
+    if(savedRemember !== null && rememberMe){
+      rememberMe.checked = savedRemember === "yes";
+    }
+    if(rememberMe){
+      rememberMe.addEventListener("change", ()=>{
+        localStorage.setItem("remember_me", rememberMe.checked ? "yes" : "no");
+      });
+    }
+
+    // ✅ Load saved mode
+    const savedMode = localStorage.getItem("copy_mode");
+    if(savedMode && modeSelect){ modeSelect.value = savedMode; }
+    if(modeSelect){
+      modeSelect.addEventListener("change", ()=>{
+        localStorage.setItem("copy_mode", modeSelect.value);
+        showToast("✅ Mode: " + modeSelect.options[modeSelect.selectedIndex].text);
+      });
+    }
+
+    // ✅ Toggle password
+    togglePass.addEventListener("click", () => {
+      passEl.type = (passEl.type === "password") ? "text" : "password";
+    });
+
+    // ✅ Login
+    loginBtn.addEventListener("click", () => {
+      const phone = phoneEl.value.trim();
+      const pass = passEl.value.trim();
+
+      if(phone === ADMIN_PHONE && pass === ADMIN_PASSWORD){
+        loginError.style.display = "none";
+        localStorage.setItem("admin_logged","yes");
+        localStorage.setItem("remember_me", (rememberMe && rememberMe.checked) ? "yes" : "no");
+        localStorage.setItem("admin_phone", phone);
+        gotoAdmin();
+      }else{
+        loginError.style.display = "block";
+      }
+    });
+
+    // enter key
+    passEl.addEventListener("keydown", (e) => {
+      if(e.key === "Enter") loginBtn.click();
+    });
+
+    guestInput.addEventListener("input", updatePreview);
+
+    copyBtn.addEventListener("click", async () => {
+      const name = guestInput.value.trim();
+      if(!name){
+        showToast("⚠️ សូមវាយឈ្មោះភ្ញៀវសិន!");
+        return;
+      }
+
+      const link = makeGuestLink(name);
+      const mode = (modeSelect && modeSelect.value) ? modeSelect.value : "toast";
+
+      // ✅ Copy to clipboard
+      try{
+        await navigator.clipboard.writeText(link);
+      }catch(err){
+        const temp = document.createElement("textarea");
+        temp.value = link;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        document.body.removeChild(temp);
+      }
+
+      // ✅ Execute selected mode
+      if(mode === "toast"){
+        showToast("✅ Copy Link រួចរាល់!");
+      }else if(mode === "open"){
+        showToast("✅ Open Link...");
+        window.open(link, "_blank");
+      }else if(mode === "alert"){
+        alert("✅ Copy Link រួចរាល់!\n\nLink ភ្ញៀវ៖\n" + link);
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      guestInput.value = "";
+      updatePreview();
+      showToast("♻️ Reset រួចរាល់!");
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("admin_logged");
+      localStorage.removeItem("admin_phone");
+      gotoLogin();
+      showToast("🚪 Logout រួចរាល់!");
+    });
+
+    updatePreview();
+  </script>
+
+
+  <!-- ✅ Toast -->
+  <div class="toast" id="toast">
+    <div class="ticon" id="toastIcon"></div>
+    <div class="ttext">
+      <p class="ttitle" id="toastTitle">Success</p>
+      <p class="tdesc" id="toastDesc">Logged in successfully.</p>
+    </div>
+    <button class="tclose" id="toastClose" aria-label="Close">✕</button>
+  </div>
+
+</body>
+</html>
